@@ -15,24 +15,33 @@ These commands deliberately reduce or remove approval checks. Use them only wher
 One-line install from GitHub:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/jbj338033/yesall/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/minodevss/yesall/main/install.sh | sh
 ```
 
 This is a `curl | sh` installer. It fetches the command wrappers directly from `raw.githubusercontent.com`; no clone or local checkout is required. Review `install.sh` before using it in a new environment.
 
-Commands are installed into `~/.yesall/bin`. Add it to your current shell's PATH:
+Commands are installed into `~/.yesall/bin`, and the installer adds that directory to your PATH in the startup files your shell actually reads — `.zshrc` for zsh, both `.bashrc` and `.bash_profile` for bash, `config.fish` for fish. New terminals work with no further setup.
+
+Only the shell you ran the installer in needs one more step, because a `curl | sh` pipeline cannot modify its parent shell:
 
 ```sh
-export PATH="$HOME/.yesall/bin:$PATH"
+source ~/.zshrc
 ```
 
-Set `YESALL_BIN_DIR` to choose another directory:
+The installer prints the exact line for your shell when it finishes.
+
+Options:
+
+| Variable | Effect |
+| --- | --- |
+| `YESALL_BIN_DIR` | Install into another directory. PATH is still configured unless the directory already resolves. |
+| `YESALL_NO_PATH=1` | Install the commands and leave every startup file untouched. |
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/jbj338033/yesall/main/install.sh | YESALL_BIN_DIR=/usr/local/bin sh
+curl -fsSL https://raw.githubusercontent.com/minodevss/yesall/main/install.sh | YESALL_BIN_DIR=/usr/local/bin sh
 ```
 
-The installer never overwrites an unmanaged file. Re-running it updates only files carrying the `yesall` marker.
+The installer never overwrites an unmanaged file. Re-running it updates only files carrying the `yesall` marker, and the PATH block it writes is guarded so it cannot duplicate an entry no matter how often it is evaluated.
 
 ## Commands
 
@@ -65,15 +74,21 @@ Check which underlying CLIs are installed:
 yesall doctor
 ```
 
+Pull the latest shortcuts:
+
+```sh
+yesall update
+```
+
 The provider files are the source of truth, and `providers/index` lets the raw installer fetch them without cloning the repository. Gemini CLI is intentionally not included.
 
 ## Uninstall
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/jbj338033/yesall/main/uninstall.sh | sh
+curl -fsSL https://raw.githubusercontent.com/minodevss/yesall/main/uninstall.sh | sh
 ```
 
-Only files carrying the `yesall` marker are removed.
+Only files carrying the `yesall` marker are removed, including the PATH block in your startup files.
 
 ## Add a provider
 

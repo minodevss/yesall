@@ -50,6 +50,20 @@ doctor() {
     return "$status"
 }
 
+update() {
+    raw_base=${YESALL_RAW_BASE:-https://raw.githubusercontent.com/minodevss/yesall/main}
+    if ! command -v curl >/dev/null 2>&1; then
+        printf 'yesall: curl is required to update\n' >&2
+        return 1
+    fi
+    tmp_file=$(mktemp "${TMPDIR:-/tmp}/yesall-install.XXXXXX")
+    trap 'rm -f "$tmp_file"' EXIT HUP INT TERM
+    curl -fsSL "$raw_base/install.sh" -o "$tmp_file"
+    sh "$tmp_file"
+}
+
+usage='Usage: yesall [list|doctor|update]'
+
 case ${1:-list} in
     list)
         list
@@ -57,12 +71,15 @@ case ${1:-list} in
     doctor)
         doctor
         ;;
+    update)
+        update
+        ;;
     -h|--help|help)
-        printf 'Usage: yesall [list|doctor]\n'
+        printf '%s\n' "$usage"
         ;;
     *)
         printf 'yesall: unknown command: %s\n' "$1" >&2
-        printf 'Usage: yesall [list|doctor]\n' >&2
+        printf '%s\n' "$usage" >&2
         exit 2
         ;;
 esac
