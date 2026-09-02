@@ -13,7 +13,7 @@ tmp_dir=
 if [ -d "$script_dir/providers" ]; then
     provider_dir=$script_dir/providers
 else
-    raw_base=${YESALL_RAW_BASE:-https://raw.githubusercontent.com/jbj338033/yesall/main}
+    raw_base=${YESALL_RAW_BASE:-https://raw.githubusercontent.com/minodevss/yesall/main}
     tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/yesall-uninstall.XXXXXX")
     trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
     provider_dir=$tmp_dir/providers

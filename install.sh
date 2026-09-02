@@ -14,7 +14,7 @@ tmp_dir=
 if [ -f "$script_dir/bin/yesall" ] && [ -d "$script_dir/providers" ]; then
     source_dir=$script_dir
 else
-    raw_base=${YESALL_RAW_BASE:-https://raw.githubusercontent.com/jbj338033/yesall/main}
+    raw_base=${YESALL_RAW_BASE:-https://raw.githubusercontent.com/minodevss/yesall/main}
     tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/yesall-install.XXXXXX")
     trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
     source_dir=$tmp_dir/repo

@@ -15,7 +15,7 @@ These commands deliberately reduce or remove approval checks. Use them only wher
 One-line install from GitHub:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/jbj338033/yesall/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/minodevss/yesall/main/install.sh | sh
 ```
 
 This is a `curl | sh` installer. It fetches the command wrappers directly from `raw.githubusercontent.com`; no clone or local checkout is required. Review `install.sh` before using it in a new environment.
@@ -29,7 +29,7 @@ export PATH="$HOME/.yesall/bin:$PATH"
 Set `YESALL_BIN_DIR` to choose another directory:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/jbj338033/yesall/main/install.sh | YESALL_BIN_DIR=/usr/local/bin sh
+curl -fsSL https://raw.githubusercontent.com/minodevss/yesall/main/install.sh | YESALL_BIN_DIR=/usr/local/bin sh
 ```
 
 The installer never overwrites an unmanaged file. Re-running it updates only files carrying the `yesall` marker.
@@ -70,7 +70,7 @@ The provider files are the source of truth, and `providers/index` lets the raw i
 ## Uninstall
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/jbj338033/yesall/main/uninstall.sh | sh
+curl -fsSL https://raw.githubusercontent.com/minodevss/yesall/main/uninstall.sh | sh
 ```
 
 Only files carrying the `yesall` marker are removed.
