@@ -18,10 +18,15 @@ else
     trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
     provider_dir=$tmp_dir/providers
     mkdir -p "$provider_dir"
-    curl -fsSL "$raw_base/providers/index" | while IFS= read -r shortcut; do
+    curl -fsSL "$raw_base/providers/index" -o "$tmp_dir/index"
+    if [ ! -s "$tmp_dir/index" ]; then
+        printf 'yesall: provider index is empty\n' >&2
+        exit 1
+    fi
+    while IFS= read -r shortcut || [ -n "$shortcut" ]; do
         [ -n "$shortcut" ] || continue
         printf '# yesall:kind=provider\n' >"$provider_dir/$shortcut"
-    done
+    done <"$tmp_dir/index"
 fi
 
 remove_name() {

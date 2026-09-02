@@ -20,10 +20,15 @@ else
     source_dir=$tmp_dir/repo
     mkdir -p "$source_dir/bin" "$source_dir/providers"
     curl -fsSL "$raw_base/bin/yesall" -o "$source_dir/bin/yesall"
-    curl -fsSL "$raw_base/providers/index" | while IFS= read -r shortcut; do
+    curl -fsSL "$raw_base/providers/index" -o "$tmp_dir/index"
+    if [ ! -s "$tmp_dir/index" ]; then
+        printf 'yesall: provider index is empty\n' >&2
+        exit 1
+    fi
+    while IFS= read -r shortcut || [ -n "$shortcut" ]; do
         [ -n "$shortcut" ] || continue
         curl -fsSL "$raw_base/providers/$shortcut" -o "$source_dir/providers/$shortcut"
-    done
+    done <"$tmp_dir/index"
 fi
 
 mkdir -p "$bin_dir"
